@@ -45,6 +45,7 @@ class _LastProductsState extends State<LastProducts> {
 
   // تابع برای دریافت داده از API
   Future<void> fetchProducts() async {
+    debugPrint('${Env.baseUrl}${Env.language}/lastProduct');
     try {
       final response = await http.get(
         Uri.parse('${Env.baseUrl}${Env.language}/lastProduct'),
