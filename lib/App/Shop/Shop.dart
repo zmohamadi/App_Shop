@@ -89,7 +89,7 @@ class Shop extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    Icons.favorite_border, // استفاده از آیکن جستجو از آیکن‌های پیش‌فرض Flutter
+                    Icons.favorite_border, 
                     size: 20,
                     color: Colors.white,
                   ),

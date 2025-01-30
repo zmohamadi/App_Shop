@@ -1,40 +1,46 @@
-import 'package:flutter/material.dart';
 
-class ProductItem {
+import 'package:flutter/material.dart';
+import '../Helpers/Data.dart';
+import '../../env.dart';
+
+class Item {
   final String imagePath;
   final String title;
 
-  ProductItem({required this.imagePath, required this.title});
+  Item({required this.imagePath, required this.title});
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      imagePath: '${env.mediaPath}/category/${json['image'] ?? 'default.jpg'}',
+      title: json['title_fa'] ?? 'نامشخص',
+    );
+  }
 }
 
-class CategoryMain extends StatelessWidget {
-  final List<ProductItem> products = [
-    ProductItem(
-      imagePath: 'assets/images/category/11.png',
-      title: 't-Shirt',
-    ),
-    ProductItem(
-      imagePath: 'assets/images/category/22.png',
-      title: 'Shirt',
-    ),
-    ProductItem(
-      imagePath: 'assets/images/category/33.png',
-      title: 'Jeans',
-    ),
-    ProductItem(
-      imagePath: 'assets/images/category/pic2.jpg',
-      title: 'Shorts',
-    ),
-    ProductItem(
-      imagePath: 'assets/images/category/pic6.jpg',
-      title: 'Shirt',
-    ),
-  ];
+class CategoryMain extends StatefulWidget {
 
-  // حذف const از سازنده
-  CategoryMain({super.key});
+  const CategoryMain({super.key});
+  @override
+  CategoryMainState createState()=> CategoryMainState();
+
+
+}
+class CategoryMainState extends State<CategoryMain>{
+  List<Item> categories = [];
+  bool isLoading = true;
 
   @override
+  void initState(){
+    super.initState();
+    getCategoris();
+  }
+  Future<void>getCategoris()async{
+    try {
+      var res = Data.get('cat');
+      categories = (res as List).map((item)=>Item.fromJson(item)).toList();
+    } catch (e) {
+      
+    }
+  }
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,9 +61,9 @@ class CategoryMain extends StatelessWidget {
           height: 120, // ارتفاع بخش اسکرول
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: products.length,
+            itemCount: categories.length,
             itemBuilder: (context, index) {
-              final product = products[index];
+              final product = categories[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Column(

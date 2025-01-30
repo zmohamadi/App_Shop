@@ -18,10 +18,10 @@ class Sliders extends StatefulWidget {
   const Sliders({super.key});
 
   @override
-  _SlidersState createState() => _SlidersState();
+  SlidersState createState() => SlidersState();
 }
 
-class _SlidersState extends State<Sliders> {
+class SlidersState extends State<Sliders> {
   // داده‌های اسلایدر
   final List<SliderItem> sliders = [
     SliderItem(

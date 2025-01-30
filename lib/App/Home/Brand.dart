@@ -6,10 +6,10 @@ class BrandSlider extends StatefulWidget {
   const BrandSlider({super.key});
 
   @override
-  _BrandSliderState createState() => _BrandSliderState(); // ایجاد وضعیت برای ویجت
+  BrandSliderState createState() => BrandSliderState(); // ایجاد وضعیت برای ویجت
 }
 
-class _BrandSliderState extends State<BrandSlider> {
+class BrandSliderState extends State<BrandSlider> {
   // لیست برندها که باید نمایش داده شوند
   final List<String> brands = [
     "Brand 1",

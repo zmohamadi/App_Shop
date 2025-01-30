@@ -1,38 +1,60 @@
 import 'package:flutter/material.dart';
+import '../../env.dart';
+import '../Helpers/Data.dart';
 
-// کلاس مدل برای هر محصول
-class ProductItem {
-  final String imagePath; // مسیر تصویر محصول
-  final String title; // عنوان محصول
+// کلاس مدل برای هر دسته بندی
+class Item {
+  final String imagePath; // مسیر تصویر دسته بندی
+  final String title; // عنوان دسته بندی
 
-  // سازنده برای ایجاد شیء از نوع ProductItem
-  ProductItem({required this.imagePath, required this.title});
+  // سازنده برای ایجاد شیء از نوع Item
+  Item({required this.imagePath, required this.title});
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      imagePath: '${env.mediaPath}/category/${json['image'] ?? 'default.jpg'}',
+      title: json['title_fa'] ?? 'نامشخص',
+    );
+  }
 }
 
-// ویجت دسته‌بندی محصولات
-class Category extends StatelessWidget {
-  // لیست محصولات
-  final List<ProductItem> products = [
-    ProductItem(
-      imagePath: 'assets/images/category/1.png',
-      title: 't-Shirt',
-    ),
-    ProductItem(
-      imagePath: 'assets/images/category/2.png',
-      title: 'Shirt',
-    ),
-    ProductItem(
-      imagePath: 'assets/images/category/3.png',
-      title: 'Jeans',
-    ),
-    ProductItem(
-      imagePath: 'assets/images/category/4.png',
-      title: 'Shorts',
-    ),
-  ];
+// ویجت دسته‌بندی دسته بندیها
+class Category extends StatefulWidget {
+  
+  const Category({super.key});
+  @override
+  CategoryState createState()=>CategoryState();
 
-  // سازنده بدون const
-  Category({super.key});
+}
+class CategoryState  extends State<Category>{
+
+  // لیست دسته بندیها
+  List<Item> categories = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+  Future<void>fetchCategories() async{
+    setState(() {
+      isLoading = true;
+    });
+    try {
+
+      var result = await Data.get('categories');
+      categories = (result as List).map((item) => Item.fromJson(item)).toList();
+    } catch (e) {
+      print(e);
+    }finally{
+      setState(() {
+      isLoading = false;
+    });
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +76,19 @@ class Category extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16), // فضای خالی بین عنوان و اسکرول
-          // اسکرول افقی برای نمایش محصولات
+          // اسکرول افقی برای نمایش دسته بندیها
           SizedBox(
             height: 120, // ارتفاع اسکرول
             child: ListView.builder(
               scrollDirection: Axis.horizontal, // اسکرول افقی
-              itemCount: products.length, // تعداد آیتم‌ها
+              itemCount: categories.length, // تعداد آیتم‌ها
               itemBuilder: (context, index) {
-                final product = products[index]; // دریافت محصول بر اساس ایندکس
+                final product = categories[index]; // دریافت دسته بندی بر اساس ایندکس
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0), // فاصله بین هر محصول
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0), // فاصله بین هر دسته بندی
                   child: Column(
                     children: [
-                      // تصویر محصول
+                      // تصویر دسته بندی
                       Container(
                         height: 80, // ارتفاع تصویر
                         width: 80, // عرض تصویر
@@ -78,7 +100,7 @@ class Category extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8), // فاصله بین تصویر و عنوان
-                      // عنوان محصول
+                      // عنوان دسته بندی
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12.0,
@@ -90,7 +112,7 @@ class Category extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20), // گوشه‌های گرد
                         ),
                         child: Text(
-                          product.title, // عنوان محصول
+                          product.title, // عنوان دسته بندی
                           style: TextStyle(
                             fontSize: 14, // اندازه فونت
                             fontWeight: FontWeight.w400, // وزن فونت
