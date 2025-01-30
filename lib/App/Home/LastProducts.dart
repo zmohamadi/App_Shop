@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../env.dart';
-import '../Helpers/Data.dart';
 
 // مدل محصول
 class ProductItem {
@@ -14,43 +13,30 @@ class ProductItem {
     required this.price,
   });
 
-  factory ProductItem.fromJson(Map<String, dynamic> json) {
-    return ProductItem(
-      imagePath: '${env.mediaPath}/product/${json['image'] ?? 'default.jpg'}',
-      title: json['name'] ?? 'نامشخص',
-      price: json['price']?.toString() ?? '0',
-    );
-  }
+  factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
+        imagePath: '${env.mediaPath}/product/${json['image'] ?? 'default.jpg'}',
+        title: json['name'] ?? 'نامشخص',
+        price: (json['price'] ?? '0').toString(),
+      );
 }
 
 // ویجت اصلی
 class LastProducts extends StatefulWidget {
-  const LastProducts({super.key});
+  final List<dynamic> data;
+
+  const LastProducts(this.data, {super.key});
 
   @override
   LastProductsState createState() => LastProductsState();
 }
 
 class LastProductsState extends State<LastProducts> {
-  List<ProductItem> products = [];
-  bool isLoading = true;
+  late List<ProductItem> products;
 
   @override
   void initState() {
     super.initState();
-    fetchProducts();
-  }
-
-  Future<void> fetchProducts() async {
-    setState(() => isLoading = true);
-    try {
-      final response = await Data.get('lastProduct');
-      products = (response as List).map((item) => ProductItem.fromJson(item)).toList();
-    } catch (e) {
-      debugPrint('خطا: $e');
-    } finally {
-      setState(() => isLoading = false);
-    }
+    products = widget.data.map((item) => ProductItem.fromJson(item)).toList();
   }
 
   @override
@@ -59,9 +45,7 @@ class LastProductsState extends State<LastProducts> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle(title: 'آخرین محصولات'),
-        isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : ProductList(products: products),
+        ProductList(products: products),
       ],
     );
   }
@@ -71,7 +55,7 @@ class LastProductsState extends State<LastProducts> {
 class SectionTitle extends StatelessWidget {
   final String title;
 
-  const SectionTitle({Key? key, required this.title}) : super(key: key);
+  const SectionTitle({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +73,7 @@ class SectionTitle extends StatelessWidget {
 class ProductList extends StatelessWidget {
   final List<ProductItem> products;
 
-  const ProductList({Key? key, required this.products}) : super(key: key);
+  const ProductList({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
@@ -108,11 +92,7 @@ class ProductList extends StatelessWidget {
 class ProductCard extends StatelessWidget {
   final ProductItem product;
 
-  const ProductCard({Key? key, required this.product}) : super(key: key);
-
-  void _onActionPressed(String action) {
-    print('$action ${product.title}');
-  }
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -128,11 +108,7 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductImage(
-              imagePath: product.imagePath,
-              onLikePressed: () => _onActionPressed('Liked'),
-              onBuyPressed: () => _onActionPressed('Added to cart'),
-            ),
+            ProductImage(imagePath: product.imagePath),
             ProductDetails(product: product),
           ],
         ),
@@ -144,32 +120,19 @@ class ProductCard extends StatelessWidget {
 // تصویر محصول
 class ProductImage extends StatelessWidget {
   final String imagePath;
-  final VoidCallback onLikePressed;
-  final VoidCallback onBuyPressed;
 
-  const ProductImage({
-    Key? key,
-    required this.imagePath,
-    required this.onLikePressed,
-    required this.onBuyPressed,
-  }) : super(key: key);
+  const ProductImage({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-          child: Image.network(
-            imagePath,
-            width: double.infinity,
-            height: 150,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned(top: 5, right: 5, child: ActionButton(icon: Icons.favorite_border, onPressed: onLikePressed)),
-        Positioned(top: 5, left: 5, child: ActionButton(icon: Icons.shopping_cart_outlined, onPressed: onBuyPressed)),
-      ],
+    return ClipRRect(
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+      child: Image.network(
+        imagePath,
+        width: double.infinity,
+        height: 150,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
@@ -178,7 +141,7 @@ class ProductImage extends StatelessWidget {
 class ProductDetails extends StatelessWidget {
   final ProductItem product;
 
-  const ProductDetails({Key? key, required this.product}) : super(key: key);
+  const ProductDetails({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -198,26 +161,6 @@ class ProductDetails extends StatelessWidget {
             style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 14),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// دکمه اکشن
-class ActionButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
-
-  const ActionButton({Key? key, required this.icon, required this.onPressed}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(color: Colors.black26, shape: BoxShape.circle),
-        child: Icon(icon, size: 20, color: Colors.white),
       ),
     );
   }

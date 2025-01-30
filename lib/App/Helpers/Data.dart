@@ -7,7 +7,7 @@ class Data {
   static Future<dynamic> get(String url) async {
     try {
       // ارسال درخواست GET به URL مشخص‌شده
-      final response = await http.get(Uri.parse('${env.baseUrl}/${env.local}/${url}'));
+      final response = await http.get(Uri.parse('${env.apiPath}$url'));
       
       // بررسی وضعیت پاسخ
       if (response.statusCode >= 200 && response.statusCode < 300) {

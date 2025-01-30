@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import '../Helpers/Data.dart';
 import '../../env.dart';
 
 class Item {
@@ -17,8 +16,9 @@ class Item {
 }
 
 class CategoryMain extends StatefulWidget {
+  final List<dynamic> data;
 
-  const CategoryMain({super.key});
+  const CategoryMain(this.data , {super.key});
   @override
   CategoryMainState createState()=> CategoryMainState();
 
@@ -26,21 +26,14 @@ class CategoryMain extends StatefulWidget {
 }
 class CategoryMainState extends State<CategoryMain>{
   List<Item> categories = [];
-  bool isLoading = true;
 
   @override
   void initState(){
     super.initState();
-    getCategoris();
+    categories = widget.data.map((item) => Item.fromJson(item)).toList();
+
   }
-  Future<void>getCategoris()async{
-    try {
-      var res = Data.get('cat');
-      categories = (res as List).map((item)=>Item.fromJson(item)).toList();
-    } catch (e) {
-      
-    }
-  }
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

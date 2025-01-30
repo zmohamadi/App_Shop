@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../env.dart';
-import '../Helpers/Data.dart';
 
 // کلاس مدل برای هر دسته بندی
 class Item {
@@ -20,8 +19,9 @@ class Item {
 
 // ویجت دسته‌بندی دسته بندیها
 class Category extends StatefulWidget {
-  
-  const Category({super.key});
+  final List<dynamic> data;
+
+  const Category(this.data,{super.key});
   @override
   CategoryState createState()=>CategoryState();
 
@@ -35,26 +35,10 @@ class CategoryState  extends State<Category>{
   @override
   void initState() {
     super.initState();
-    fetchCategories();
+    categories = widget.data.map((item) => Item.fromJson(item)).toList();
+
   }
-  Future<void>fetchCategories() async{
-    setState(() {
-      isLoading = true;
-    });
-    try {
-
-      var result = await Data.get('categories');
-      categories = (result as List).map((item) => Item.fromJson(item)).toList();
-    } catch (e) {
-      print(e);
-    }finally{
-      setState(() {
-      isLoading = false;
-    });
-    }
-  }
-
-
+ 
 
   @override
   Widget build(BuildContext context) {

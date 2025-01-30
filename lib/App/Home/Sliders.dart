@@ -15,7 +15,9 @@ class SliderItem {
 }
 
 class Sliders extends StatefulWidget {
-  const Sliders({super.key});
+  final List<dynamic> data; // تعریف پارامتر برای دریافت داده
+
+  const Sliders(this.data , {super.key});
 
   @override
   SlidersState createState() => SlidersState();
