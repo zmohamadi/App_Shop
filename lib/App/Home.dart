@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../Theme/Scaffold.dart';
-import './Home/Sliders.dart';
-import './Home/LastProducts.dart';
-import './Home/Category.dart';
-import './Home/CategoryMain.dart';
-import './Home/Brand.dart';
+import './home/Sliders.dart';
+import './home/last_products.dart';
+import './home/Category.dart';
+import './home/category_main.dart';
+import './home/Brand.dart';
 import './Helpers/Data.dart';
+import './Helpers/localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,8 +15,9 @@ class Home extends StatefulWidget {
   HomeState createState() => HomeState();
 }
 
-class HomeState extends State<Home> {
-  Map<String, dynamic> data = {};
+class HomeState extends State<Home> {  
+  Map<String, dynamic> data = {};  // اصلاح نحوه تعریف
+  late Map<String, String> _trans = {};
   bool isLoading = true;
 
   @override
@@ -29,7 +31,8 @@ class HomeState extends State<Home> {
       isLoading = true;
     });
     try {
-      data = await Data.get('home');
+      data = await Data.get('home'); // اصلاح نحوه بارگذاری داده
+      _trans = await getLang();
     } catch (e) {
       print(e);
     } finally {
@@ -48,12 +51,14 @@ class HomeState extends State<Home> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (data.containsKey('sliders')) Sliders(data = data['sliders']),
-                  if (data.containsKey('categories')) Category(data = data['categories']),
-                  if (data.containsKey('categories')) CategoryMain(data = data['categories']),
+                  if (data.containsKey('sliders'))  Sliders(data: data['sliders'], trans: _trans),  // اصلاح نحوه فراخوانی
+                  if (data.containsKey('categories')) Category(data : data['categories'] , trans: _trans),
+                  if (data.containsKey('categories')) CategoryMain(data : data['categories'] , trans: _trans),
                   const SizedBox(height: 16),
                   if (data.containsKey('brands')) BrandSlider(),
-                  if (data.containsKey('lastProducts')) LastProducts(data = data['lastProducts']),
+                  if (data.containsKey('lastProducts')) LastProducts(data : data['lastProducts'] , trans: _trans),
+                  const SizedBox(height: 16),
+
                 ],
               ),
             ),

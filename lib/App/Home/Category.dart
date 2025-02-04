@@ -19,9 +19,12 @@ class Item {
 
 // ویجت دسته‌بندی دسته بندیها
 class Category extends StatefulWidget {
-  final List<dynamic> data;
+  final List<dynamic> data; // تعریف پارامتر برای دریافت داده
+  final Map<String, String> trans;  // تعریف trans به عنوان Map
 
-  const Category(this.data,{super.key});
+  const Category({required this.data, required this.trans, super.key});  // اصلاح constructor
+
+
   @override
   CategoryState createState()=>CategoryState();
 
@@ -35,8 +38,10 @@ class CategoryState  extends State<Category>{
   @override
   void initState() {
     super.initState();
+setState(() {
     categories = widget.data.map((item) => Item.fromJson(item)).toList();
-
+    isLoading = false; // اگر نیازی به بارگذاری نیست، مقدار false شود
+  });
   }
  
 
@@ -73,16 +78,17 @@ class CategoryState  extends State<Category>{
                   child: Column(
                     children: [
                       // تصویر دسته بندی
-                      Container(
+                     Container(
                         height: 80, // ارتفاع تصویر
                         width: 80, // عرض تصویر
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(product.imagePath), // استفاده از مسیر تصویر
+                            image: NetworkImage(product.imagePath), // استفاده از URL تصویر
                             fit: BoxFit.cover, // تنظیم نمایش تصویر به طور کامل
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 8), // فاصله بین تصویر و عنوان
                       // عنوان دسته بندی
                       Container(

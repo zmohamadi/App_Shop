@@ -1,21 +1,21 @@
 import 'package:get/get.dart';
-import './App/Home.dart';
-import './App/Auth/Login.dart';
-import './App/Auth/Register.dart';
-import './App/Auth/Reset.dart';
+import '../App/home.dart';
+import '../App/Auth/Login.dart';
+import '../App/Auth/Register.dart';
+import '../App/Auth/Reset.dart';
 
-import './App/Panel/EditProfile.dart';
-import './App/Panel/Profile.dart';
+import '../App/Panel/edit_profile.dart';
+import '../App/Panel/profile.dart';
 
-import './App/Shop/Shop.dart';
-import './App/Wishlist/Wishlist.dart';
-import './App/User/User.dart';
+import '../App/Shop/Shop.dart';
+import '../App/Wishlist/Wishlist.dart';
+import '../App/User/User.dart';
 
-import './App/Products/ProductView.dart';
+import '../App/Products/product_view.dart';
 
-// import './App/Courses/Courses.dart';
+// import '../App/Courses/Courses.dart';
 
-// import './App/Sample.dart';
+// import '../App/Sample.dart';
 
 dynamic routes=[
   //منوهای صفحه اصلی
@@ -25,7 +25,7 @@ dynamic routes=[
   GetPage(name: '/user', page: ()=>const User()),
   // GetPage(name: '/courses', page: ()=>const Courses()),
 
-    GetPage(name: '/product', page: () => const ProductView()),
+GetPage(name: '/product/:id', page: () => ProductView()),
 
   // پروفایل
   GetPage(name: '/edit-profile', page: ()=>const EditProfile()),

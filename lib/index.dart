@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import './routes.dart';
+import './Theme/routes.dart';
 import './Controllers/ThemeController.dart';
 
 class Index extends StatelessWidget {

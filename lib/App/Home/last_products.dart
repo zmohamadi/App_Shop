@@ -22,9 +22,10 @@ class ProductItem {
 
 // ویجت اصلی
 class LastProducts extends StatefulWidget {
-  final List<dynamic> data;
+  final List<dynamic> data; // تعریف پارامتر برای دریافت داده
+  final Map<String, String> trans;  // تعریف trans به عنوان Map
 
-  const LastProducts(this.data, {super.key});
+  const LastProducts({required this.data, required this.trans, super.key});  // اصلاح constructor
 
   @override
   LastProductsState createState() => LastProductsState();

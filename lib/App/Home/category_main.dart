@@ -16,9 +16,12 @@ class Item {
 }
 
 class CategoryMain extends StatefulWidget {
-  final List<dynamic> data;
+  final List<dynamic> data; // تعریف پارامتر برای دریافت داده
+  final Map<String, String> trans;  // تعریف trans به عنوان Map
 
-  const CategoryMain(this.data , {super.key});
+  const CategoryMain({required this.data, required this.trans, super.key});  // اصلاح constructor
+
+
   @override
   CategoryMainState createState()=> CategoryMainState();
 
@@ -68,7 +71,7 @@ class CategoryMainState extends State<CategoryMain>{
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                          image: AssetImage(product.imagePath),
+                          image: NetworkImage(product.imagePath),
                           fit: BoxFit.cover,
                         ),
                       ),

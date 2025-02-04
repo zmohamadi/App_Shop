@@ -16,8 +16,9 @@ class SliderItem {
 
 class Sliders extends StatefulWidget {
   final List<dynamic> data; // تعریف پارامتر برای دریافت داده
+  final Map<String, String> trans;  // تعریف trans به عنوان Map
 
-  const Sliders(this.data , {super.key});
+  const Sliders({required this.data, required this.trans, super.key});  // اصلاح constructor
 
   @override
   SlidersState createState() => SlidersState();
