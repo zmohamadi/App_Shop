@@ -5,7 +5,7 @@ import '../App/Auth/Register.dart';
 import '../App/Auth/Reset.dart';
 
 import '../App/Panel/edit_profile.dart';
-import '../App/Panel/profile.dart';
+// import '../App/Panel/profile.dart';
 
 import '../App/Shop/Shop.dart';
 import '../App/Wishlist/Wishlist.dart';
@@ -29,7 +29,7 @@ GetPage(name: '/product/:id', page: () => ProductView()),
 
   // پروفایل
   GetPage(name: '/edit-profile', page: ()=>const EditProfile()),
-  GetPage(name: '/profile', page: ()=>const Profile()),
+  // GetPage(name: '/profile', page: ()=>const Profile()),
 
   // احراز هویت
   GetPage(name: '/register', page: ()=>const Register()),
