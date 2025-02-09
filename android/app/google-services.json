@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "282297634950",
+    "project_id": "app-shop-sayan",
+    "storage_bucket": "app-shop-sayan.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282297634950:android:d02fcdcb3b6b672b548107",
+        "android_client_info": {
+          "package_name": "sayan.shop_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282297634950-m8o3f7npp5dm1fh5hk02p1f7evl9tk5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr4Zk3r0--rP8xbnz7UjZ0y3ruVosPaUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282297634950-m8o3f7npp5dm1fh5hk02p1f7evl9tk5a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
